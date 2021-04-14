@@ -40,12 +40,10 @@ class JmxClientConnectorFactoryTest extends GroovyTestCase {
     }
 
     void testJmxClientConnectorNode() {
-        RMIConnectorServer server = builder.serverConnector(port: rmi.port)
+        RMIConnectorServer server = builder.serverConnector(host: 'localhost', port: rmi.port)
         server.start()
 
-        RMIConnector client = builder.clientConnector(
-                port: rmi.port
-        )
+        RMIConnector client = builder.clientConnector(host: 'localhost', port: rmi.port)
 
         assert client
         client.connect()
@@ -53,7 +51,7 @@ class JmxClientConnectorFactoryTest extends GroovyTestCase {
     }
 
     void testJmxClientConnectorUrl() {
-        RMIConnectorServer server = builder.serverConnector(port: rmi.port)
+        RMIConnectorServer server = builder.serverConnector(host: 'localhost', port: rmi.port)
         server.start()
 
         RMIConnector client = builder.clientConnector(url: "service:jmx:rmi:///jndi/rmi://localhost:${rmi.port}/jmxrmi")
@@ -64,9 +62,7 @@ class JmxClientConnectorFactoryTest extends GroovyTestCase {
 
     void testJmxClientConnectorFailure() {
         shouldFail {
-            RMIConnector client = builder.clientConnector(
-                    port: 1099
-            )
+            RMIConnector client = builder.clientConnector(host: 'localhost', port: 1099)
             assert client
             client.connect()
         }
